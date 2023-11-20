@@ -1,10 +1,10 @@
 name: MSDO windows-latest
-    on:
-      push:
+on:
+    push:
         branches: [main]
-      pull_request:
+    pull_request:
         branches: [main]
-      workflow_dispatch:
+    workflow_dispatch:
 
     jobs:
       sample:
@@ -12,23 +12,23 @@ name: MSDO windows-latest
         # macos-latest supporting coming soon
         runs-on:windows-latest
 
-        steps:
-        - uses: actions/checkout@v3
+      steps:
+      - uses: actions/checkout@v3
 
-        - uses: actions/setup-dotnet@v3
-          with:
-            dotnet-version: |
-              5.0.x
-              6.0.x
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: |
+            5.0.x
+            6.0.x
 
-            #Run analyzers
-            - name: Run Microsft Security DevOps Analysis
-              uses: microsoft/security-devops-action@preview
-              id: msdo
+        #Run analyzers
+      - name: Run Microsft Security DevOps Analysis
+        uses: microsoft/security-devops-action@preview
+        id: msdo
 
-            #Upload alerts to the Security tab
-            - name: Upload alerts to Security tab
-              uses: github/codeql-action/upload-sarif@v2
-              with:
-                sarif_file: ${{steps.msdo.outputs.sarifile}}
+        #Upload alerts to the Security tab
+      - name: Upload alerts to Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+            sarif_file: ${{steps.msdo.outputs.sarifile}}
       
